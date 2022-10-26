@@ -1,0 +1,10 @@
+---
+- import_playbook: create_wetty_folder_structure.yml
+  tags:
+    - wetty-folder-structure
+- import_playbook: copy_wetty_docker_compose.yml
+  tags:
+    - wetty-docker-compose
+- import_playbook: create_wetty_systemd_service.yml
+  tags:
+    - wetty-systemd-service

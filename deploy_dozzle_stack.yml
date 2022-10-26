@@ -1,0 +1,10 @@
+---
+- import_playbook: create_dozzle_folder_structure.yml
+  tags:
+    - dozzle-folder-structure
+- import_playbook: copy_dozzle_docker_compose.yml
+  tags:
+    - dozzle-docker-compose
+- import_playbook: create_dozzle_systemd_service.yml
+  tags:
+    - dozzle-systemd-service

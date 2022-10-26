@@ -1,0 +1,12 @@
+---
+- name: "Create dozzle folder structure"
+  hosts: localhost
+  become: True
+  become_method: sudo
+  tasks:
+    - name: "Create dozzle folder structure"
+      file:
+        path: "{{ apps_folder }}/dozzle"
+        state: directory
+        owner: root
+        group: root

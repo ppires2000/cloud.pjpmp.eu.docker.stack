@@ -1,0 +1,39 @@
+---
+- name: "Create wetty stack systemd service"
+  hosts: localhost
+  become: True
+  become_method: sudo
+  tasks:
+    - name: "Create wetty stack systemd service"
+      template:
+        src: templates/stacks/wetty/docker.wetty.service.j2
+        dest: /etc/systemd/system/docker.wetty.service
+        mode: 0777
+        owner: root
+        group: root
+
+    - name: "Update wetty stack systemd service"
+      template:
+        src: templates/stacks/wetty/docker.wetty.service.j2
+        dest: /etc/systemd/system/docker.wetty.service
+        mode: 0777
+        owner: root
+        group: root
+      tags:
+        - update
+
+    - name: "Enable wetty stack systemd service"
+      systemd:
+        name: docker.wetty
+        enabled: True
+
+    - name: "Start wetty stack systemd service"
+      systemd:
+        name: docker.wetty
+        state: started
+
+    - name: "Systemctl reload daemon"
+      systemd:
+        daemon_reload: yes
+      tags:
+        - update

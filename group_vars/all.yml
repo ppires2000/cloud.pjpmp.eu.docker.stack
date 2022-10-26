@@ -1,4 +1,7 @@
 ---
+core_stack_folder: /opt/core
+apps_folder: /opt/core/apps
+
 core_stack_folders:
   - /opt/backups
   - /opt/core
@@ -15,6 +18,7 @@ core_stack_folders:
 # Global settings
 GLOBAL_RESTART_POLICY: "unless-stopped"
 WORKING_DIRECTORY: "/opt/core"
+APPS_WORKING_DIRECTORY: "/opt/cores/apps/"
 
 # Systemd services
 CORE_STACK_SERVICE_DESCRIPTION: "Docker compose core stack systemd service"
@@ -33,3 +37,19 @@ PORTAINER_CONTAINER_NAME: "portainer"
 PORTAINER_HOSTNAME: "portainer.cloud.pjpmp.eu"
 PORTAINER_SERVICE_PORT: "9000"
 PORTAINER_IP_ADDRESS: 192.168.2.2
+
+# Dozzle settings
+DOZZLE_DOCKER_IMAGE: "amir20/dozzle"
+DOZZLE_DOCKER_IMAGE_TAG: "latest"
+DOZZLE_CONTAINER_NAME: "dozzle"
+DOZZLE_HOSTNAME: "logs.cloud.pjpmp.eu"
+DOZZLE_IP_ADDRESS: 192.168.2.8
+DOZZLE_SERVICE_PORT: 8080
+
+# Wetty settings
+WETTY_DOCKER_IMAGE: "wettyoss/wetty"
+WETTY_DOCKER_IMAGE_TAG: "latest"
+WETTY_CONTAINER_NAME: "wetty"
+WETTY_HOSTNAME: "terminal.cloud.pjpmp.eu"
+WETTY_SERVICE_PORT: 3000
+WETTY_IP_ADDRESS: 192.168.2.11

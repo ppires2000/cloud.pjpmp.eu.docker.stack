@@ -1,0 +1,18 @@
+---
+- name: 'Copy dozzle docker compose'
+  hosts: localhost
+  become: True
+  become_method: sudo
+  tasks:
+    - name: 'Copy dozzle docker compose'
+      template:
+        src: ../templates/stacks/dozzle/docker-compose.yml.j2
+        dest: /opt/core/apps/dozzle/docker-compose.yml
+        mode: 0664
+        owner: root
+        group: root
+
+    - name: "Restart dozzle stack systemd service"
+      systemd:
+        name: docker.dozzle
+        state: restarted

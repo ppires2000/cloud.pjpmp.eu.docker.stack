@@ -1,0 +1,26 @@
+# {{ ansible_managed }}
+
+version: "3.6"
+services:  
+  dozzle:
+    image: "{{ DOZZLE_DOCKER_IMAGE }}:{{ DOZZLE_DOCKER_IMAGE_TAG }}"
+    container_name: "{{ DOZZLE_CONTAINER_NAME }}"
+    hostname: "{{ DOZZLE_HOSTNAME }}"
+    restart: "{{ GLOBAL_RESTART_POLICY }}"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock    
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=proxy'
+      - 'traefik.http.routers.logs-secure.entrypoints=websecure'
+      - 'traefik.http.routers.logs-secure.rule=Host(`{{ DOZZLE_HOSTNAME }}`)'
+      - "traefik.http.routers.logs-secure.service=logs"
+      - "traefik.http.services.logs.loadbalancer.server.port={{ DOZZLE_SERVICE_PORT }}"
+      # - 'traefik.http.routers.logs-secure.middlewares=authelia@docker'
+    networks:
+      proxy:
+        ipv4_address: "{{ DOZZLE_IP_ADDRESS }}"
+networks:
+  proxy:
+    external: true

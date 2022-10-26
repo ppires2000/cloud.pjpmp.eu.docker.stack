@@ -1,0 +1,31 @@
+# {{ ansible_managed }}
+
+version: "3.6"
+services:
+  wetty:
+    image: "{{ WETTY_DOCKER_IMAGE }}:{{ WETTY_DOCKER_IMAGE_TAG }}"
+    container_name: "{{ WETTY_CONTAINER_NAME }}"
+    hostname: "{{ WETTY_HOSTNAME }}"
+    restart: "{{ GLOBAL_RESTART_POLICY }}"
+    security_opt:
+      - no-new-privileges:true
+    command:
+      - --base=/
+      - --ssh-host=cloud.pjpmp.eu
+      - --title=Terminal@Cloud
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.wetty-secure.entrypoints=websecure"
+      - "traefik.http.routers.wetty-secure.rule=Host(`{{ WETTY_HOSTNAME }}`)"
+      - "traefik.http.routers.wetty-secure.service=wetty"
+      - "traefik.http.services.wetty.loadbalancer.server.port={{ WETTY_SERVICE_PORT }}"
+      #- "traefik.http.routers.wetty-secure.middlewares=authelia@docker"
+    networks:
+      proxy:
+        ipv4_address: "{{ WETTY_IP_ADDRESS }}"
+networks:
+  proxy:
+    external: true

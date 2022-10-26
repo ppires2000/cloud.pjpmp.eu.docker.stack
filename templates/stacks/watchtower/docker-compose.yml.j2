@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+
+version: "3.6"
+services:  
+  watchtower:
+    image: ${WATCHTOWER_DOCKER_IMAGE}:${WATCHTOWER_DOCKER_IMAGE_TAG}
+    container_name: ${WATCHTOWER_CONTAINER_NAME}
+    hostname: ${WATCHTOWER_HOSTNAME}
+    restart: ${GLOBAL_RESTART_POLICY}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - TZ=${WATCHTOWER_TZ}
+      - WATCHTOWER_MONITOR_ONLY=${WATCHTOWER_MONITOR_ONLY}
+      - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP}
+      - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE}
+    networks:
+      proxy:
+        ipv4_address: ${WATCHTOWER_IP_ADDRESS}
+networks:
+  proxy:
+    external: true
