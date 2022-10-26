@@ -1,0 +1,13 @@
+---
+- name: "Create folder structure"
+  hosts: localhost
+  become: True
+  become_method: sudo
+  tasks:
+    - name: "Create folder structure"
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: root
+        group: root
+      with_items: "{{ core_stack_folders }}"

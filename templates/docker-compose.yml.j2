@@ -1,0 +1,57 @@
+# {{ ansible_managed }}
+
+version: "3.6"
+services:  
+  traefik:
+    image: "{{ TRAEFIK_DOCKER_IMAGE }}:{{ TRAEFIK_DOCKER_IMAGE_TAG }}"
+    container_name: "{{ TRAEFIK_CONTAINER_NAME }}"
+    hostname: "{{ TRAEFIK_HOSTNAME }}"
+    restart: "{{ GLOBAL_RESTART_POLICY }}"
+    security_opt:
+      - no-new-privileges:true    
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./apps/traefik/traefik.yml:/traefik.yml:ro
+      - ./apps/traefik/configurations:/configurations
+      - ./apps/traefik/letsencrypt:/letsencrypt
+      - ./apps/traefik/logs:/var/log/traefik
+      - ./apps/traefik/logs:/etc/traefik/log/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.traefik-secure.entrypoints=websecure"
+      - "traefik.http.routers.traefik-secure.rule=Host(`{{ TRAEFIK_HOSTNAME }}`)"
+      - "traefik.http.routers.traefik-secure.service=api@internal"
+      # - 'traefik.http.routers.traefik-secure.middlewares=authelia@docker'
+    networks:
+      proxy:
+        ipv4_address: "{{ TRAEFIK_IP_ADDRESS }}"
+  portainer:
+    image: "{{ PORTAINER_DOCKER_IMAGE }}:{{ PORTAINER_DOCKER_IMAGE_TAG }}"
+    container_name: "{{ PORTAINER_CONTAINER_NAME }}"
+    hostname: "{{ PORTAINER_HOSTNAME }}"
+    restart: "{{ GLOBAL_RESTART_POLICY }}"
+    security_opt:
+      - no-new-privileges:true    
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./apps/portainer:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.portainer-secure.entrypoints=websecure"
+      - "traefik.http.routers.portainer-secure.rule=Host(`{{ PORTAINER_HOSTNAME }}`)"
+      - "traefik.http.routers.portainer-secure.service=portainer"
+      - "traefik.http.services.portainer.loadbalancer.server.port={{ PORTAINER_SERVICE_PORT }}"
+    networks:
+      proxy:
+        ipv4_address: "{{ PORTAINER_IP_ADDRESS }}"
+networks:
+  proxy:
+    external: true

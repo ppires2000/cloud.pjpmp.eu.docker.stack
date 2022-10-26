@@ -1,0 +1,16 @@
+---
+- import_playbook: create_docker_networks.yml
+  tags:
+    - proxy-network
+- import_playbook: create_folder_structure.yml
+  tags:
+    - folder-structure
+- import_playbook:  copy_files.yml
+  tags:
+    - copy-files
+- import_playbook: copy_docker_compose.yml
+  tags:
+    - docker-compose
+- import_playbook: create_core_systemd_service.yml
+  tags:
+    - systemd-service

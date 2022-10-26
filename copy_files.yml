@@ -1,0 +1,29 @@
+---
+- name: 'Copy initial files and docker compose'
+  hosts: localhost
+  become: True
+  become_method: sudo
+  tasks:
+    - name: 'Copy Traefik Letsencrypt'
+      copy:
+        src: ./files/traefik/acme.json.empty
+        dest: /opt/core/apps/traefik/letsencrypt/acme.json
+        mode: 0600
+        owner: root
+        group: root
+    
+    - name: 'Copy Traefik dynamic configuration'
+      copy:
+        src: ./files/traefik/dynamic.yml
+        dest: /opt/core/apps/traefik/configurations
+        mode: 0644
+        owner: root
+        group: root
+
+    - name: 'Copy Traefik configuration'
+      copy:
+        src: ./files/traefik/traefik.yml
+        dest: /opt/core/apps/traefik/
+        mode: 0644
+        owner: root
+        group: root

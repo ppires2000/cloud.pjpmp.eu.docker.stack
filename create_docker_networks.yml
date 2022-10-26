@@ -1,0 +1,15 @@
+---
+- name: "Create docker proxy network"
+  hosts: localhost
+  become: True
+  become_method: sudo
+  tasks:
+    - name: "Create Docker proxy network"
+      docker_network:
+        name: proxy
+        driver_options:
+          com.docker.network.bridge.name: proxy
+        ipam_config:
+          - subnet: 192.168.2.0/24
+            gateway: 192.168.2.254
+            iprange: 192.168.2.0/24

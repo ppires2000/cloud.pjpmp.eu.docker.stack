@@ -1,0 +1,13 @@
+---
+- name: 'Copy docker compose'
+  hosts: localhost
+  become: True
+  become_method: sudo
+  tasks:
+    - name: 'Copy docker compose'
+      template:
+        src: ./templates/docker-compose.yml.j2
+        dest: /opt/core/docker-compose.yml
+        mode: 0664
+        owner: root
+        group: root

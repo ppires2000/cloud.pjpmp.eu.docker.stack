@@ -1,0 +1,35 @@
+---
+core_stack_folders:
+  - /opt/backups
+  - /opt/core
+  - /opt/core/apps
+  - /opt/core/apps/authelia
+  - /opt/core/apps/portainer/data
+  - /opt/core/apps/registry
+  - /opt/core/apps/registry-ui
+  - /opt/core/apps/traefik/configurations
+  - /opt/core/apps/traefik/letsencrypt
+  - /opt/core/apps/traefik/logs
+  - /opt/share/files
+
+# Global settings
+GLOBAL_RESTART_POLICY: "unless-stopped"
+WORKING_DIRECTORY: "/opt/core"
+
+# Systemd services
+CORE_STACK_SERVICE_DESCRIPTION: "Docker compose core stack systemd service"
+
+# Trafik settings
+TRAEFIK_DOCKER_IMAGE: "traefik"
+TRAEFIK_DOCKER_IMAGE_TAG: "latest"
+TRAEFIK_CONTAINER_NAME: "traefik"
+TRAEFIK_HOSTNAME: "proxy.cloud.pjpmp.eu"
+TRAEFIK_IP_ADDRESS: 192.168.2.1
+
+# Portainer settings
+PORTAINER_DOCKER_IMAGE: "portainer/portainer-ee"
+PORTAINER_DOCKER_IMAGE_TAG: "latest"
+PORTAINER_CONTAINER_NAME: "portainer"
+PORTAINER_HOSTNAME: "portainer.cloud.pjpmp.eu"
+PORTAINER_SERVICE_PORT: "9000"
+PORTAINER_IP_ADDRESS: 192.168.2.2
