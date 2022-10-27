@@ -1,0 +1,39 @@
+---
+- name: "Create watchtower stack systemd service"
+  hosts: localhost
+  become: True
+  become_method: sudo
+  tasks:
+    - name: "Create watchtower stack systemd service"
+      template:
+        src: templates/stacks/watchtower/docker.watchtower.service.j2
+        dest: /etc/systemd/system/docker.watchtower.service
+        mode: 0777
+        owner: root
+        group: root
+
+    - name: "Update watchtower stack systemd service"
+      template:
+        src: templates/stacks/watchtower/docker.watchtower.service.j2
+        dest: /etc/systemd/system/docker.watchtower.service
+        mode: 0777
+        owner: root
+        group: root
+      tags:
+        - update
+
+    - name: "Enable watchtower stack systemd service"
+      systemd:
+        name: docker.watchtower
+        enabled: True
+
+    - name: "Start watchtower stack systemd service"
+      systemd:
+        name: docker.watchtower
+        state: started
+
+    - name: "Systemctl reload daemon"
+      systemd:
+        daemon_reload: yes
+      tags:
+        - update

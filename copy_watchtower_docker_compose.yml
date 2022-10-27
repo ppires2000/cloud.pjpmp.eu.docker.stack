@@ -1,0 +1,21 @@
+---
+- name: 'Copy watchtower docker compose'
+  hosts: localhost
+  become: True
+  become_method: sudo
+  tasks:
+    - name: 'Copy watchtower docker compose'
+      template:
+        src: ../templates/stacks/watchtower/docker-compose.yml.j2
+        dest: /opt/core/apps/watchtower/docker-compose.yml
+        mode: 0664
+        owner: root
+        group: root
+
+    - name: 'Copy watchtower .env file'
+      copy:
+        src: ../templates/stacks/watchtower/.env
+        dest: /opt/core/apps/watchtower/.env
+        mode: 0664
+        owner: root
+        group: root

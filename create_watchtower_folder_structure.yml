@@ -1,0 +1,12 @@
+---
+- name: "Create watchtower folder structure"
+  hosts: localhost
+  become: True
+  become_method: sudo
+  tasks:
+    - name: "Create watchtower folder structure"
+      file:
+        path: "{{ apps_folder }}/watchtower"
+        state: directory
+        owner: root
+        group: root

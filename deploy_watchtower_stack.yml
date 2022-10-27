@@ -1,0 +1,10 @@
+---
+- import_playbook: create_watchtower_folder_structure.yml
+  tags:
+    - watchtower-folder-structure
+- import_playbook: copy_watchtower_docker_compose.yml
+  tags:
+    - watchtower-docker-compose
+- import_playbook: create_watchtower_systemd_service.yml
+  tags:
+    - watchtower-systemd-service
